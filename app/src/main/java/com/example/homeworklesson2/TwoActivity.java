@@ -16,13 +16,9 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 public class TwoActivity extends AppCompatActivity {
-
-    private static final int PERMISSION_CODE = 1000;//9:36
-
-
     Button browser, camera;
     ImageView imageView;
-    private final int pick_image = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,27 +33,19 @@ public class TwoActivity extends AppCompatActivity {
             }
         });
 
-        camera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-                startActivity(intent);
-            }
+        camera.setOnClickListener(v -> {
+            Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+            startActivity(intent);
         });
 
         imageView = (ImageView)findViewById(R.id.picture_jpg);
 
         Button pickImage = (Button) findViewById(R.id.gallery_btn);
-        //Настраиваем для нее обработчик нажатий OnClickListener:
-        pickImage.setOnClickListener(new View.OnClickListener() {
+        pickImage.setOnClickListener(view -> {
 
-            @Override
-            public void onClick(View view) {
-
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, pick_image);
-            }
+            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+            photoPickerIntent.setType("image/*");
+            startActivityForResult(photoPickerIntent,1);
         });
     }
 
@@ -65,16 +53,16 @@ public class TwoActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 
-        switch(requestCode) {
-            case pick_image:
-                if(resultCode == RESULT_OK){
-                    try {
-                        final Uri imageUri = imageReturnedIntent.getData();
-                        final InputStream imageStream = getContentResolver().openInputStream(imageUri);
-                        final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                        imageView.setImageBitmap(selectedImage);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                try {
+                    final Uri imageUri = imageReturnedIntent.getData();
+                    final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+                    final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                    imageView.setImageBitmap(selectedImage);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
                 }
-        }}}
+            }
+        }
+    }}
