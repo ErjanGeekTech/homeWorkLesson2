@@ -47,7 +47,6 @@ public class TwoActivity extends AppCompatActivity {
 
         imageView = (ImageView)findViewById(R.id.picture_jpg);
 
-        //Связываемся с нашей кнопкой Button:
         Button PickImage = (Button) findViewById(R.id.gallery_btn);
         //Настраиваем для нее обработчик нажатий OnClickListener:
         PickImage.setOnClickListener(new View.OnClickListener() {
@@ -55,17 +54,13 @@ public class TwoActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                //Вызываем стандартную галерею для выбора изображения с помощью Intent.ACTION_PICK:
                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                //Тип получаемых объектов - image:
                 photoPickerIntent.setType("image/*");
-                //Запускаем переход с ожиданием обратного результата в виде информации об изображении:
                 startActivityForResult(photoPickerIntent, Pick_image);
             }
         });
     }
 
-    //Обрабатываем результат выбора в галерее:
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
@@ -74,9 +69,6 @@ public class TwoActivity extends AppCompatActivity {
             case Pick_image:
                 if(resultCode == RESULT_OK){
                     try {
-
-                        //Получаем URI изображения, преобразуем его в Bitmap
-                        //объект и отображаем в элементе ImageView нашего интерфейса:
                         final Uri imageUri = imageReturnedIntent.getData();
                         final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                         final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
