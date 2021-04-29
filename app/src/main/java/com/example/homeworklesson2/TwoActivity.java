@@ -22,7 +22,7 @@ public class TwoActivity extends AppCompatActivity {
 
     Button browser, camera;
     ImageView imageView;
-    private final int Pick_image = 1;
+    private final int pick_image = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,16 +47,16 @@ public class TwoActivity extends AppCompatActivity {
 
         imageView = (ImageView)findViewById(R.id.picture_jpg);
 
-        Button PickImage = (Button) findViewById(R.id.gallery_btn);
+        Button pickImage = (Button) findViewById(R.id.gallery_btn);
         //Настраиваем для нее обработчик нажатий OnClickListener:
-        PickImage.setOnClickListener(new View.OnClickListener() {
+        pickImage.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
 
                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
                 photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, Pick_image);
+                startActivityForResult(photoPickerIntent, pick_image);
             }
         });
     }
@@ -66,7 +66,7 @@ public class TwoActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 
         switch(requestCode) {
-            case Pick_image:
+            case pick_image:
                 if(resultCode == RESULT_OK){
                     try {
                         final Uri imageUri = imageReturnedIntent.getData();
